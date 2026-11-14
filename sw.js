@@ -1,5 +1,5 @@
 // 꼬마 슈팅 놀이터 offline cache. Bump VERSION whenever you change the game files.
-const VERSION = 'kidsgame-v5';
+const VERSION = 'kidsgame-v6';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-512-maskable.png', './icons/apple-touch-icon.png'];
 const FONT_CSS = 'https://fonts.googleapis.com/css2?family=Jua&display=swap';
 const isFont = u => u.startsWith('https://fonts.googleapis.com/') || u.startsWith('https://fonts.gstatic.com/');
@@ -17,7 +17,8 @@ async function cacheFont() {
   } catch (e) {}
 }
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES)).then(() => { cacheFont(); return self.skipWaiting(); }));
+  // cache: 'reload' skips the browser's own HTTP cache, so a new version never stores a stale copy of the game
+  e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES.map(u => new Request(u, { cache: 'reload' })))).then(() => { cacheFont(); return self.skipWaiting(); }));
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim()));
