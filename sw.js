@@ -1,5 +1,5 @@
 // 꼬마 슈팅 놀이터 offline cache. Bump VERSION whenever you change the game files.
-const VERSION = 'kidsgame-v8';
+const VERSION = 'kidsgame-v9';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-512-maskable.png', './icons/apple-touch-icon.png'];
 const FONT_CSS = 'https://fonts.googleapis.com/css2?family=Jua&display=swap';
 const isFont = u => u.startsWith('https://fonts.googleapis.com/') || u.startsWith('https://fonts.gstatic.com/');
